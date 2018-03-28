@@ -58,6 +58,7 @@ GRAFANA_USER_PASSWORD  ?=
 GRAFANA_ADMIN_PASSWORD ?=
 
 # Alert manager configuration
+# List emails address for sending alerts - list with "," separator
 EMAIL_ADRESS_FOR_SEND_ALERT ?=zan@whiteants.net
 HOSTNAME_SMTP_SERVER        ?=mail.tender.pro
 SMTP_PORT                   ?=25
@@ -180,7 +181,7 @@ init_alert:
 	@echo "receivers:" >> alertmanager/config.yml
 	@echo "  - name: 'default-receiver'" >> alertmanager/config.yml
 	@echo "    email_configs:" >> alertmanager/config.yml
-	@echo "    - to: '$$EMAIL_ADRESS_FOR_SEND_ALERT, white.zan@gmail.com'" >> alertmanager/config.yml
+	@echo "    - to: '$$EMAIL_ADRESS_FOR_SEND_ALERT'" >> alertmanager/config.yml
 	@echo "      require_tls: false" >> alertmanager/config.yml
 
 
