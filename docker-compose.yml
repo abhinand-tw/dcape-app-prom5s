@@ -44,7 +44,6 @@ services:
 
   alert:
     image: ${IMAGE_ALERT_MANAGER}:${IMAGE_VER_ALERT_MANAGER}
-#    container_name: alertmanager
     volumes:
       - ./alertmanager/:/etc/alertmanager/
     command:
@@ -103,7 +102,7 @@ services:
       - /dev/kmsg:/dev/kmsg:ro
       - /var/run:/var/run:rw
       - /sys:/sys:ro
-      - /var/lib/docker/:/var/lib/docker:ro
+#      - /var/lib/docker/:/var/lib/docker:ro
 #      - /dev/disk/:/dev/disk:ro
       - /cgroup:/cgroup:ro #doesn't work on MacOS only for Linux
     command:
@@ -113,7 +112,7 @@ services:
 #      - '--allow_dynamic_housekeeping=false'
 #      - '--docker_env_metadata_whitelist="container_fs_usage_bytes"'
 #      - '--global_housekeeping_interval=40s'
-#      - '--housekeeping_interval=20s'
+      - '--housekeeping_interval=5s'
 #      - '--max_housekeeping_interval=40s'
       - '--disable_metrics=disk'
       - '--max_procs=2'

@@ -153,18 +153,19 @@ update: reup
 
 ## старт контейнеров
 up:
-up: CMD=up -d #--config.file=/prometheus-data/prometheus.yml
+up: CMD=up -d
 up: init_alert dc
 
 ## рестарт контейнеров
 reup:
-reup: CMD=up --force-recreate -d #--config.file=/prometheus-data/prometheus.yml
+reup: CMD=up --force-recreate -d
 reup: init_alert dc
 
-## остановка и удаление всех контейнеров
+## остановка и удаление всех контейнеров и томов 
 down:
-down: CMD=rm -f -s
+down: CMD=down -v
 down: dc
+
 # create config file with smtp environment for alertmanageer
 init_alert:
 	@echo "global:" > alertmanager/config.yml
