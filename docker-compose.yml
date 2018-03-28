@@ -86,6 +86,7 @@ services:
       - '--no-collector.sockstat'
       - '--no-collector.vmstat'
       - '--no-collector.wifi'
+#      - '--no-collector.filesystem'
     restart: unless-stopped
     expose:
       - 9100
@@ -109,12 +110,12 @@ services:
 #      - '--v=0'
       - '--docker_only=true'
 #      - '--storage_duration=1m0s'
-      - '--allow_dynamic_housekeeping=false'
+#      - '--allow_dynamic_housekeeping=false'
 #      - '--docker_env_metadata_whitelist="container_fs_usage_bytes"'
-      - '--global_housekeeping_interval=40s'
-      - '--housekeeping_interval=20s'
-      - '--max_housekeeping_interval=40s'
-#      - '--application_metrics_count_limit=1'
+#      - '--global_housekeeping_interval=40s'
+#      - '--housekeeping_interval=20s'
+#      - '--max_housekeeping_interval=40s'
+      - '--disable_metrics=disk'
       - '--max_procs=2'
     restart: unless-stopped
     expose:
