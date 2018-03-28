@@ -177,19 +177,11 @@ init_alert:
 	@echo " " >> alertmanager/config.yml
 	@echo "route:" >> alertmanager/config.yml
 	@echo "  receiver: default-receiver" >> alertmanager/config.yml
-	@echo "  routes:" >> alertmanager/config.yml
-	@echo "    receiver: second-receiver" >> alertmanager/config.yml
 	@echo "receivers:" >> alertmanager/config.yml
 	@echo "  - name: 'default-receiver'" >> alertmanager/config.yml
-	@echo "    send_resolved: true" >> alertmanager/config.yml
 	@echo "    email_configs:" >> alertmanager/config.yml
-	@echo "    - to: '$$EMAIL_ADRESS_FOR_SEND_ALERT'" >> alertmanager/config.yml
+	@echo "    - to: '$$EMAIL_ADRESS_FOR_SEND_ALERT, white.zan@gmail.com'" >> alertmanager/config.yml
 	@echo "      require_tls: false" >> alertmanager/config.yml
-	@echo "  - name: 'second-receiver'" >> alertmanager/config.yml
-	@echo "    email_configs:" >> alertmanager/config.yml
-	@echo "    - to: 'white.zan@gmail.com'" >> alertmanager/config.yml
-	@echo "      require_tls: false" >> alertmanager/config.yml
-
 
 
 # Wait for postgresql container start

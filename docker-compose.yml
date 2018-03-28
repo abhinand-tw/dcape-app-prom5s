@@ -49,7 +49,7 @@ services:
       - ./alertmanager/:/etc/alertmanager/
     command:
       - '--config.file=/etc/alertmanager/config.yml'
-      - '--storage.path=/alertmanager'  
+      - '--storage.path=/alertmanager'
     depends_on:
       - www
     environment:
@@ -75,7 +75,7 @@ services:
     volumes:
       - /proc:/host/proc:ro
       - /sys:/host/sys:ro
-      - /:/rootfs:ro
+#      - /:/rootfs:ro  disable until bugfix the /dev/shm busy
     command:
       - '--path.procfs=/host/proc'
       - '--path.sysfs=/host/sys'
@@ -98,7 +98,7 @@ services:
     image: ${IMAGE_CADVISOR}:${IMAGE_VER_CADVISOR}
 #    container_name: cadvisor
     volumes:
-      - /:/rootfs:ro
+#      - /:/rootfs:ro disable until bugfix the /dev/shm busy
       - /dev/kmsg:/dev/kmsg:ro
       - /var/run:/var/run:rw
       - /sys:/sys:ro
