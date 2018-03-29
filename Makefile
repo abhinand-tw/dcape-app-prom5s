@@ -54,14 +54,14 @@ AUTH_PROMETHEUS_ADMIN  ?= admin:$apr1$wDsZIjJq$mS86gqB1k4G9I8.x599ai.
 
 #Grafana AUTHORIZATION
 GRAFANA_USER           ?= user
-GRAFANA_USER_PASSWORD  ?=
+GRAFANA_USER_PASSWORD  ?= $(shell < /dev/urandom tr -dc A-Za-z0-9 | head -c14; echo)
 GRAFANA_ADMIN_PASSWORD ?=
 
 # Alert manager configuration
 # List emails address for sending alerts - list with "," separator
-EMAIL_ADRESS_FOR_SEND_ALERT ?=zan@whiteants.net
-HOSTNAME_SMTP_SERVER        ?=mail.tender.pro
-SMTP_PORT                   ?=25
+EMAIL_ADRESS_FOR_SEND_ALERT ?= root@localhost, user@localhost
+HOSTNAME_SMTP_SERVER        ?= localhost
+SMTP_PORT                   ?= 25
 USERNAME_SMTP_ALERT         ?=
 PASSWORD_SMTP_ALERT         ?=
 
@@ -143,7 +143,7 @@ start: db-create-instances up
 
 start-hook: db-create-instances reup
 
-stop: down db-drop-instances
+stop: down
 
 update: reup
 
@@ -161,7 +161,7 @@ reup:
 reup: CMD=up --force-recreate -d
 reup: init_alert dc
 
-## остановка и удаление всех контейнеров и томов 
+## остановка и удаление всех контейнеров и томов
 down:
 down: CMD=down -v
 down: dc
@@ -171,9 +171,9 @@ init_alert:
 	@echo "global:" > alertmanager/config.yml
 	@echo "  smtp_smarthost: '$$HOSTNAME_SMTP_SERVER:$$SMTP_PORT'" >> alertmanager/config.yml
 	@echo "  smtp_hello: '$$APP_SITE'" >> alertmanager/config.yml
-	@echo "  smtp_from: `sed -n '/USERNAME_SMTP_ALERT/p' .env | cut -c 21-`" >> alertmanager/config.yml
-	@echo "  smtp_auth_username: `sed -n '/USERNAME_SMTP_ALERT/p' .env | cut -c 21-`" >> alertmanager/config.yml
-	@echo "  smtp_auth_password: `sed -n '/PASSWORD_SMTP_ALERT/p' .env | cut -c 21-`" >> alertmanager/config.yml
+	@echo "  smtp_from: '$$USERNAME_SMTP_ALERT'" >> alertmanager/config.yml
+	@echo "  smtp_auth_username: '$$USERNAME_SMTP_ALERT'" >> alertmanager/config.yml
+	@echo "  smtp_auth_password: '$$PASSWORD_SMTP_ALERT'" >> alertmanager/config.yml
 	@echo " " >> alertmanager/config.yml
 	@echo "route:" >> alertmanager/config.yml
 	@echo "  receiver: default-receiver" >> alertmanager/config.yml
@@ -192,8 +192,7 @@ docker-wait:
 
 # ------------------------------------------------------------------------------
 # DB operations
-
-# create user, db and shema for non-superuser runing postgres_exporter
+# create user, db and shema for non-superuser runing postgres_exporter - this database only for postgres_exporter working
 db-create-instances: docker-wait
 	@check_dbname_exist=`docker exec -i $$DCAPE_DB psql -U postgres -l | grep -m 1 -w $$DB_NAME` ; \
 	if [[ $$check_dbname_exist ]] ; then \
