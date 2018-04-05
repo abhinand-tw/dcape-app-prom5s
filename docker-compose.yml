@@ -165,6 +165,7 @@ services:
       - GF_SMTP_HOST=${HOSTNAME_SMTP_SERVER}:${SMTP_PORT}
       - GF_SMTP_USER=${USERNAME_SMTP_ALERT}
       - GF_SMTP_PASSWORD=${PASSWORD_SMTP_ALERT}
+      - GF_SMTP_SKIP_VERIFY=true
     restart: unless-stopped
     expose:
       - 3000
