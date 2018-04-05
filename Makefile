@@ -1,3 +1,4 @@
+
 # dcape-app-prometheus Makefile
 
 SHELL               = /bin/bash
@@ -35,10 +36,6 @@ IMAGE_VER_GRAFANA        ?= 5.0.0
 
 IMAGE_PGSQL_EXPORT			 ?= wrouesnel/postgres_exporter
 IMAGE_VER_PGSQL_EXPORT   ?= v0.4.4
-
-# Docker image name & image tag (version)
-#IMAGE_CADDY              ?= stefanprodan/caddy
-#IMAGE_VER_CADDY          ?= 0.10.10
 
 # Docker-compose project name (container name prefix)
 PROJECT_NAME       ?= prom5s

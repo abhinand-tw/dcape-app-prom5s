@@ -14,8 +14,8 @@ services:
     ports:
       - "9090:9090"
     volumes:
+      - ../../data/prometheus_data:/prometheus:rw
       - ./prometheus/:/etc/prometheus/
-      - ../../data/prometheus_data:/prometheus
     depends_on:
       - node
       - cadvisor
@@ -153,19 +153,18 @@ services:
       - www
     entrypoint: /setup.sh
     environment:
+      - GF_DEFAULT_INSTANCE_NAME=${DASH_SITE}
       - GF_SECURITY_ADMIN_USER=${GRAFANA_ADMIN_USER:-admin}
       - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD:-admin}
       - GRAFANA_USER=${GRAFANA_USER}
       - GRAFANA_USER_PASSWORD=${GRAFANA_USER_PASSWORD}
       - GRAFANA_USER_EMAIL=${GRAFANA_USER_EMAIL}
-#      - GF_USERS_ALLOW_SIGN_UP=true
       - GF_USERS_DEFAULT_THEME=light
-#      - GF_DATABASE_TYPE=postgres
-#      - GF_DATABASE_HOST=${DCAPE_DB}:5432
-#      - GF_DATABASE_NAME=${DB_NAME_GRAFANA}
-#      - GF_DATABASE_USER=${DB_USER_GRAFANA}
-#      - GF_DATABASE_PASSWORD=${DB_PASS_GRAFANA}
-#      - GF_DATABASE_SSL_MODE=disable
+      - GF_SMTP_ENABLED=true
+      # set smtp setting same as Prometheus smtp alert settings
+      - GF_SMTP_HOST=${HOSTNAME_SMTP_SERVER}:${SMTP_PORT}
+      - GF_SMTP_USER=${USERNAME_SMTP_ALERT}
+      - GF_SMTP_PASSWORD=${PASSWORD_SMTP_ALERT}
     restart: unless-stopped
     expose:
       - 3000
