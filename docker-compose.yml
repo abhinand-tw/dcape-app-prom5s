@@ -154,6 +154,7 @@ services:
     entrypoint: /setup.sh
     environment:
       - GF_DEFAULT_INSTANCE_NAME=${DASH_SITE}
+      - GF_SERVER_ROOT_URL=${DASH_SITE}
       - GF_SECURITY_ADMIN_USER=${GRAFANA_ADMIN_USER:-admin}
       - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD:-admin}
       - GRAFANA_USER=${GRAFANA_USER}
